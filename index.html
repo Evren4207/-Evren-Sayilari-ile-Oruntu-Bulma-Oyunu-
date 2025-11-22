@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Asal Örüntü Avcıları</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.05);
+        }
+        h1 {
+            color: #007bff;
+            text-align: center;
+        }
+        .container { text-align: center; }
+        .rules {
+            background-color: #fff;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            text-align: left;
+            font-size: 0.9em;
+        }
+        .question {
+            font-size: 1.3em;
+            font-weight: bold;
+            margin: 20px 0;
+            color: #d9534f;
+        }
+        .result {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            font-weight: bold;
+        }
+        .result.correct { background-color: #dff0d8; color: #3c763d; }
+        .result.incorrect { background-color: #f2dede; color: #a94442; }
+        input[type="number"] {
+            padding: 10px;
+            font-size: 1.1em;
+            width: 100px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 1.1em;
+            color: white;
+            background-color: #007bff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover { background-color: #0056b3; }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🔢 Asal Örüntü Avcıları</h1>
+
+        <div class="rules">
+            <b>Kural Basit:</b> Bir sayı alıyoruz (örn: 124), bu sayının son basamağını (4)
+            ve geriye kalan kısmını (12) topluyoruz.
+            <br>
+            <b>Örnek:</b> 124 -> Kalan Kısım: 12, Son Basamak: 4 -> Toplam: 12 + 4 = 16
+        </div>
+
+        {% if result %}
+            {% if "Tebrikler" in result %}
+                <div class="result correct">{{ result }}</div>
+            {% else %}
+                <div class="result incorrect">{{ result }}</div>
+            {% endif %}
+        {% endif %}
+
+        <div class="question">
+            SORU: '{{ data.prime }}' asal sayısının {{ data.multiplier }}. katı olan
+            '{{ data.number_to_ask }}' sayısı için örüntüdeki değer nedir?
+        </div>
+
+        <form action="/check" method="POST">
+            <input typef="number" name="guess" required autocomplete="off" autofocus>
+            
+            <input type="hidden" name="correct_answer" value="{{ data.correct_answer }}">
+            <input type="hidden" name="number_to_ask" value="{{ data.number_to_ask }}">
+            
+            <button type="submit">Cevapla</button>
+        </form>
+    </div>
+</body>
+</html>
